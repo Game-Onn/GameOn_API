@@ -10,6 +10,6 @@ public class AuthenticationController {
 
     @GetMapping("/")
     public String getHello(){
-        return "Hello";
+        return "Welcome";
     }
 }
