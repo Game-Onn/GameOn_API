@@ -24,8 +24,8 @@ jobs:
         run: curl -fsSL https://railway.app/install.sh | sh
 
       - name: Deploy to Railway
-        run: railway up --service=${{ secrets.RAILWAY_SERVICE_NAME }} --project=${{ secrets.RAILWAY_PROJECT_NAME }}
+        run: railway up
         env:
           RAILWAY_TOKEN: ${{ secrets.GameOn_API_Token }}
-          RAILWAY_SERVICE_NAME: GameOn_API
-          RAILWAY_PROJECT_NAME: prolific-flexibility
+          RAILWAY_SERVICE_NAME: ${{ secrets.RAILWAY_SERVICE_NAME }}
+          RAILWAY_PROJECT_NAME: ${{ secrets.RAILWAY_PROJECT_NAME }}
