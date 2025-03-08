@@ -26,6 +26,6 @@ jobs:
       - name: Deploy to Railway
         run: railway up --service=GameOn_API --project=prolific-flexibility
         env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_API_KEY }}
+          RAILWAY_TOKEN: ${{ secrets.GameOn_API_Token }}
           RAILWAY_SERVICE_NAME: GameOn_API
           RAILWAY_PROJECT_NAME: prolific-flexibility
