@@ -22,12 +22,14 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+.idea/*
 .idea/compiler.xml
 .idea/encodings.xml
 .idea/jarRepositories.xml
 .idea/misc.xml
 .idea/palantir-java-format.xml
 .idea/vcs.xml
+.target/*
 target/classes/application.yml
 target/GameOn_API-1.0-SNAPSHOT.jar.original
 target/maven-archiver/pom.properties
