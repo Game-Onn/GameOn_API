@@ -1,0 +1,34 @@
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up jdk
+        uses: actions/setup-java@v4.7.0
+        with:
+          java-version: '17'
+          distribution: 'corretto'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Install Railway CLI
+        run: curl -fsSL https://railway.app/install.sh | sh
+
+      - name: Configure Railway CLI
+        run: railway login --token ${{ secrets.GameOn_API_Token }}
+
+      - name: Deploy to Railway
+        run: railway up --service=GameOn_API --project=prolific-flexibility
+        env:
+          RAILWAY_SERVICE_NAME: GameOn_API
+          RAILWAY_PROJECT_NAME: prolific-flexibility
+      
