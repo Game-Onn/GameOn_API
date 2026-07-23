@@ -1,46 +1,70 @@
 package org.project.api.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import jakarta.validation.Valid;
+import org.project.api.dto.UserDto;
+import org.project.api.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Controller for user-related operations with update and delete.
+ */
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private final List<Map<String, String>> users = new ArrayList<>();
+    private final UserService userService;
 
-    public UserController() {
-        // Add some dummy users
-        users.add(Map.of("id", "1", "name", "Alice", "email", "alice@example.com"));
-        users.add(Map.of("id", "2", "name", "Bob", "email", "bob@example.com"));
-        users.add(Map.of("id", "3", "name", "Charlie", "email", "charlie@example.com"));
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     /**
-     * This method retrieves all users.
+     * Retrieves all users.
+     *
      * @return A list of all users.
      */
     @GetMapping("/")
-    public List<Map<String, String>> getAllUsers() {
-        return users;
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers();
     }
 
     /**
-     * This method retrieves a user by their ID.
+     * Retrieves a user by their ID.
+     *
      * @param id The ID of the user to retrieve.
-     * @return The user's data, or null if not found.
+     * @return The user's data.
      */
     @GetMapping("/{id}")
-    public Map<String, String> getUserById(@PathVariable String id) {
-        return users.stream()
-                .filter(user -> id.equals(user.get("id")))
-                .findFirst()
-                .orElse(null);
+    public UserDto getUserById(@PathVariable String id) {
+        return userService.getUserById(id);
+    }
+
+    /**
+     * Updates an existing user.
+     *
+     * @param id The ID of the user to update.
+     * @param userDto The new user data.
+     * @return The updated user data.
+     */
+    @PutMapping("/{id}")
+    public UserDto updateUser(@PathVariable String id, @Valid @RequestBody UserDto userDto) {
+        return userService.updateUser(id, userDto);
+    }
+
+    /**
+     * Deletes a user by their ID.
+     *
+     * @param id The ID of the user to delete.
+     * @return A response entity with a success message.
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable String id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok("User deleted successfully");
     }
 }
